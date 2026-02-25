@@ -2,7 +2,14 @@
 
 A quantitative analysis tool that identifies statistical arbitrage opportunities in forex pairs using Principal Component Analysis (PCA) principles and mean-reversion strategies. The system analyzes currency pair deviations from benchmark instruments (USD Index, Gold, Oil) and validates trading signals using econometric tests.
 
-📊 Streamlit | Pandas | NumPy | Statsmodels | Plotly | Dukascopy | License
+![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-2.0+-150458?style=for-the-badge&logo=pandas&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-1.24+-013243?style=for-the-badge&logo=numpy&logoColor=white)
+![Statsmodels](https://img.shields.io/badge/Statsmodels-0.13+-blue?style=for-the-badge)
+![Plotly](https://img.shields.io/badge/Plotly-5.10+-3F4F75?style=for-the-badge&logo=plotly&logoColor=white)
+![Dukascopy](https://img.shields.io/badge/Dukascopy-API-orange?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
 ---
 
