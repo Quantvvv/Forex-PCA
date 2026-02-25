@@ -115,14 +115,5 @@ In a quantitative finance context, this approach demonstrates:
 
 ---
 
-## ⚠️ Disclaimer
+**Disclaimer**: *This project is for educational and research purposes. Quantitative models involve significant risk, and statistical significance in the past does not guarantee future results.*
 
-**This is a backtesting tool, not investment advice.**
-
-- Past performance ≠ future results
-- Backtests can be over-optimized and fail in live trading
-- Forex trading carries substantial risk of total loss
-- Always test strategies with small capital first
-- Consult a financial advisor before trading with real money
-
-Use at your own risk. The authors assume no liability for trading losses.
