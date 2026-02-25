@@ -1,6 +1,7 @@
-# dukascopy-python==4.0.1
+dukascopy-python==4.0.1
 streamlit>=1.28.0
 pandas>=1.5.0
 numpy>=1.23.0
 statsmodels>=0.13.0
 plotly>=5.0.0
+
