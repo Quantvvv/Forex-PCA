@@ -4,6 +4,8 @@
 
 The **Forex PCA Statistical Arbitrage** strategy identifies and trades temporary deviations between currency pairs and benchmark instruments. When a pair deviates significantly from its historical relationship with a benchmark (e.g., DXY, Gold), the strategy assumes the deviation is temporary and profits from the reversion.
 
+
+The higher the timeframe, the more stable the strategy, but one limitation: the number of trades drops significantly. It's important to note that when changing the timeframe, entry/exit boundaries should also be adjusted due to the different influence of the Z window.
 ---
 
 ## Strategy Concept
@@ -82,7 +84,6 @@ Example: 3 positions on $10K account
 | **Stop Loss** | 0.5% | Exit losing positions quickly |
 | **Cooldown** | 1 candle | Prevents whipsaw re-entries |
 
-**All proven stable** across 2015-present backtests (52-58% win rate, 15-25% max drawdown)
 
 ---
 
@@ -108,14 +109,16 @@ Example: 3 positions on $10K account
 - **30** - Faster, noisier
 - **100** - Smoother, slower
 
+From practice, the optimal values ​​are only 50-60
+
 **ADF Threshold:**
 - **0.05** (DEFAULT) - Strict, high quality
 - **0.10** - Looser, more trades
 
 ### Quick Optimization
 
-**For more trades:** Threshold -1.5, ADF 0.10, window 30
-**For quality:** Threshold -2.5, ADF 0.01, window 100
+**For more trades:** Threshold -2.0, ADF 0.10,
+**For quality:** Threshold -2.5, ADF 0.01,
 **For safety:** Lower max concurrent, tighter stop loss
 
 ---
@@ -125,65 +128,10 @@ Example: 3 positions on $10K account
 | Issue | Solutions |
 |--------|-----------|
 | **No trades** | Lower Z threshold; change benchmark; add data |
-| **All p-values > 0.05** | Increase regression window; change benchmark; loosen ADF threshold |
+| **All p-values > 0.05** | change benchmark; loosen ADF threshold |
 | **Too slow** | Reduce lookback days; use longer timeframe; fewer pairs |
-| **Download fails** | Check internet; verify pair names; try later |
-| **Too much drawdown** | Reduce max concurrent; tighter stop loss |
-
----
-
-## Application to Cross-Currency Swaps
-
-### Concept
-
-Cross-currency swaps exchange cash flows in two currencies. This strategy trades the **swap basis** (actual vs. theoretical fair value).
-
-### Fair Value
-
-Interest rate parity suggests:
-$$\text{Forward Rate} = \text{Spot} \times \frac{1 + r_{base}}{1 + r_{quote}}$$
-
-In practice, actual swap spreads deviate due to:
-- Liquidity mismatches
-- Central bank policy divergence
-- Risk premium changes
-- Temporary currency demand imbalances
-
-### Trading the Basis
-
-When swap spread deviates from fair value:
-
-1. **Overvalued:** Swap spread too wide → avoid or reverse swap
-2. **Undervalued:** Swap spread compressed → execute swap, lock in cheap funding
-
-**Real example:** EUR/USD cross-currency basis unusually tight
-- Entry: Execute swap (receive cheap EUR, pay USD)
-- Exit: When basis normalizes and spread widens back
-
-### Advantages over Spot
-
-- ✅ Interest rate differential included (more economically grounded)
-- ✅ Focuses on funding cost anomalies
-- ✅ Better for corporate treasury applications
-- ✅ More precise basis risk modeling
-
-### Integration into Backtester
-
-To adapt for swap basis:
-
-1. Replace benchmark: Use interest rate differential instead of another pair
-2. Adjust regression: Fit spot vs. rate spread
-3. Signals: Same methodology—trade when deviations revert
-
-**Implementation:** When EUR rates >> USD rates but EUR/USD not proportionally higher → swap basis cheap → execute swap for funding advantage
-
-### Limitations
-
-- ⚠️ Requires swap market data access (less public than spot)
-- ⚠️ Wider bid-ask spreads
-- ⚠️ Higher execution costs
-- ⚠️ Institutional constraints (regulatory, counterparty)
-- ⚠️ More overnight gap risk
+| **Download fails** | Check internet; verify pair names;|
+| **Too much drawdown** | Reduce max concurrent; tighter stop loss; choose a higher time frame |
 
 ---
 
@@ -211,23 +159,13 @@ To adapt for swap basis:
 
 **Avoid (overfitting):**
 - Per-pair optimization on full historical set
-- Using future data for current signals
 - Over-tuning parameters on single regime
-
-### Strategy Strengths
-
-- ✅ Simple, interpretable mechanics
-- ✅ Mathematically sound (econometric foundation)
-- ✅ Works across timeframes (30m-1d)
-- ✅ Adaptable to different benchmarks
-- ✅ Proven defaults (years of testing)
 
 ### Strategy Limitations
 
 - ❌ Regime-dependent (broken correlations)
 - ❌ No black swan protection
 - ❌ Overnight risk not modeled
-- ❌ Illiquidity on minor pairs
 - ❌ Degrades in high-volatility environments
 
 ### When to Use
@@ -240,4 +178,4 @@ To adapt for swap basis:
 
 - ❌ Standalone live strategy (without risk controls)
 - ❌ During major news events
-- ❌ If correlation permanently breaks
+
